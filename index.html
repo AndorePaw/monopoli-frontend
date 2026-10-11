@@ -1056,10 +1056,13 @@ function openSheet(kind, html, lock, arg) {
   $('#sheetBack').style.pointerEvents = lock ? 'none' : 'auto';
 }
 function closeSheet() {
-  sheetKind = ''; $('#sheet').classList.remove('on'); $('#sheetBack').classList.remove('on');
+  sheetKind = '';
+  $('#sheet').classList.remove('on');
+  $('#sheetBack').classList.remove('on');
+  $('#sheetBack').style.pointerEvents = 'none';   // ← RESET INLINE STYLE (fix bug)
   // kalau sedang fase beli dan kartu beli tertutup, buka lagi supaya tidak macet
   if (S && view === 'game' && S.phase === 'buy' && S.cur === me.id && !busy) setTimeout(() => { if (!sheetKind && S && S.phase === 'buy' && S.cur === me.id && !busy) openBuy(); }, 350);
-}
+    }
 $('#sheetBack').onclick = () => { if (!sheetLock) closeSheet(); };
 $('#sheet').onclick = e => {
   const b = e.target.closest('[data-do]'); if (!b || b.disabled) return; const d = b.dataset.do;
